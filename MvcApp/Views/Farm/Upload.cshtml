@@ -1,0 +1,31 @@
+﻿@model List<Shared.Data.Entities.Device>
+@{
+    ViewData["Title"] = "AgriStream Dashboard";
+}
+
+<div class="container mt-4">
+    <div class="text-center mb-4">
+        <h1 class="display-5 fw-bold text-success">AgriStream</h1>
+        <p class="lead">Smart Farm Monitoring</p>
+        <a href="/Farm/Upload" class="btn btn-outline-success">Upload Drone Image</a>
+    </div>
+
+    <div class="row">
+        @foreach (var device in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@device.Name</h5>
+                        <p class="card-text">ID: @device.DeviceId</p>
+                        <span class="badge bg-@(device.Status == "Idle" ? "secondary" : "success")">@device.Status</span>
+                        <form asp-controller="Farm" asp-action="TriggerIrrigation" method="post" class="mt-2">
+                            <input type="hidden" name="deviceId" value="@device.DeviceId" />
+                            <button type="submit" class="btn btn-primary btn-sm">Trigger Irrigation</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
